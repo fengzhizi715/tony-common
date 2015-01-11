@@ -1,0 +1,14 @@
+# Java class files
+*.class
+
+# generated files
+target/
+
+# Eclipse project files
+#.classpath
+#.project
+.idea
+.classpath
+.project
+.DS_Store
+.settings/
