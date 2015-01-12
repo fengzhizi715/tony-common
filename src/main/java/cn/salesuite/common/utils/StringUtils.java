@@ -3,16 +3,12 @@
  */
 package cn.salesuite.common.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Tony Shen
  *
  */
 public class StringUtils {
-
-	private static Logger logger = LoggerFactory.getLogger(StringUtils.class);
 	
 	// Empty checks
     //-----------------------------------------------------------------------
