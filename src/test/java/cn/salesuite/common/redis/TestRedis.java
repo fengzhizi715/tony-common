@@ -4,10 +4,11 @@
 package cn.salesuite.common.redis;
 
 
+import javax.annotation.Resource;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,9 +19,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext-resource.xml", "classpath:applicationContext-redis.xml"})
-public class RedisTest extends AbstractJUnit4SpringContextTests {
+public class TestRedis extends AbstractJUnit4SpringContextTests {
 	
-	@Autowired
+	@Resource
 	UserRedisService userRedisService;
 	
 	private static long ONE_DAY = 86400000L; 
@@ -34,5 +35,12 @@ public class RedisTest extends AbstractJUnit4SpringContextTests {
 		
 		userRedisService.set("user", u, ONE_DAY);
 		Assert.assertEquals(u, userRedisService.get("user"));
+	}
+	
+	@Test
+	public void testDeleteUser() {
+		
+		userRedisService.del("user");
+		Assert.assertNull(userRedisService.get("user"));
 	}
 }
