@@ -25,10 +25,13 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoException;
 import com.mongodb.MongoOptions;
+import com.mongodb.ReadPreference;
 import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSInputFile;
 
@@ -39,7 +42,8 @@ import com.mongodb.gridfs.GridFSInputFile;
 public class MongoDBManager {
 	
 	private static Logger logger = LoggerFactory.getLogger(MongoDBManager.class);
-	private static Mongo mg = null;
+
+	private static MongoClient mongoClient = null;
 	private static DB db = null;
 	private MongoOptions mongoOptions;
 	private String dbName;
@@ -56,7 +60,7 @@ public class MongoDBManager {
      */
 	public void init() {
 		try {
-			if(mg == null){
+			if(mongoClient == null){
 				List<ServerAddress> replicaSetSeeds = new ArrayList<ServerAddress>();
 				String[] hostStrs = hostList.split(",");
 				for (String oneHostStr : hostStrs) {
@@ -66,16 +70,35 @@ public class MongoDBManager {
 				}
 				
 				if (mongoOptions!=null) {
-					mg = new Mongo(replicaSetSeeds,mongoOptions);
+					mongoClient = new MongoClient(replicaSetSeeds,getMongoClientOptions(mongoOptions));
 				} else {
-					mg = new Mongo(replicaSetSeeds);
+					mongoClient = new MongoClient(replicaSetSeeds);
 				}
 			}
-			db = mg.getDB(dbName);
+			db = mongoClient.getDB(dbName);
 		} catch (Exception e) {
 			logger.error("Can't connect MongoDB!");
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 由于MongoClientOptions是基于builder模式生成的，不方便注入。所以，注入MongoOptions，通过MongoOptions来生成MongoClientOptions
+	 * @param mongoOptions
+	 * @return
+	 */
+	private MongoClientOptions getMongoClientOptions(MongoOptions mongoOptions) {
+		return new MongoClientOptions.Builder()
+				.connectionsPerHost(mongoOptions.connectionsPerHost)
+				.connectTimeout(mongoOptions.connectTimeout)     // 链接超时时间
+				.cursorFinalizerEnabled(mongoOptions.cursorFinalizerEnabled)
+				.maxWaitTime(mongoOptions.maxWaitTime)
+				.threadsAllowedToBlockForConnectionMultiplier(
+						mongoOptions.threadsAllowedToBlockForConnectionMultiplier)
+				.socketTimeout(mongoOptions.socketTimeout)       // read数据超时时间
+				.socketKeepAlive(mongoOptions.socketKeepAlive)   // 是否保持长链接
+				.readPreference(ReadPreference.primary())        // 最近优先策略
+				.writeConcern(WriteConcern.NORMAL).build();
 	}
 
 	/**

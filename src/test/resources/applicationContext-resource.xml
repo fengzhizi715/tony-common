@@ -12,9 +12,9 @@
 		<property name="locations">
 			<list>
 				<value>classpath*:/redis.properties</value>
+				<value>classpath*:/mongodb.properties</value>
 			</list>
 		</property>
 	</bean>
-	<!-- <context:component-scan base-package="com.hotelvp.**.service" />
-	<context:component-scan base-package="com.hotelvp.**.dao" /> -->
+
 </beans>
