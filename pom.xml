@@ -68,6 +68,12 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.7</version>
 		</dependency>
+
+	    <dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.3</version>
+	    </dependency>
 	</dependencies>
 
 	<build>
