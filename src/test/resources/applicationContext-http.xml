@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <bean id="httpClient" class="cn.salesuite.common.http.HttpClient" init-method="init">
+        <!-- 连接池最大连接数 -->
+        <property name="maxTotal" value="100"/>
+        <!-- 每个路由最大连接数 -->
+        <property name="maxPerRoute" value="20"/>
+        <!-- 连接超时时间,单位毫秒 -->
+        <property name="connectionTimeout" value="3000"/>
+        <!-- 读取超时时间,单位毫秒 -->
+        <property name="soTimeout" value="5000"/>
+        <!-- 服务器未设置keep-alive时间时默认的keepAlive时间，单位秒 -->
+        <property name="keepAliveTime" value="30"/>
+    </bean>
+
+</beans>

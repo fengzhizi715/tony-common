@@ -40,6 +40,7 @@ public class TestXMemcached extends AbstractJUnit4SpringContextTests {
 				logger.info("other is null..............");
 			}
 			Assert.assertEquals(city.cityName, other.cityName);
+			Assert.assertEquals(city.cityId, other.cityId);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
