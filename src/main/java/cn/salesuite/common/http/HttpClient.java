@@ -195,6 +195,18 @@ public class HttpClient {
         String paramsStr = HttpClient.buildParams(params);
         return paramsStr == null ? uri : (uri + "?" + paramsStr);
     }
+    
+    /**
+     * 构造http get url请求
+     * @param uri
+     * @param params
+     * @return
+     */
+    public static String buildObjUrl(String uri, Map<String, Object> params) {
+
+        String paramsStr = HttpClient.buildObjParams(params);
+        return paramsStr == null ? uri : (uri + "?" + paramsStr);
+    }
 
     /**
      * 构造请求参数字符串
@@ -215,6 +227,30 @@ public class HttpClient {
         }
         return sb.toString().length() > 0 ? sb.toString() : null;
     }
+    
+	/**
+	 * 构造请求参数字符串
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public static String buildObjParams(Map<String, Object> params) {
+		if (params == null || params.size() == 0) {
+			return null;
+		}
+		StringBuilder sb = new StringBuilder();
+		Set<Entry<String, Object>> entrySet = params.entrySet();
+		for (Entry<String, Object> entry : entrySet) {
+
+			if (StringUtils.isNotBlank(entry.getKey())
+					&& entry.getValue() != null) {
+				sb.append(sb.length() == 0 ? entry.getKey() + "=" : "&"
+						+ entry.getKey() + "=");
+				sb.append(entry.getValue().toString());
+			}
+		}
+		return sb.toString().length() > 0 ? sb.toString() : null;
+	}
 
     /**
      * get方法
