@@ -201,7 +201,7 @@ public class HttpClient {
      * @param params
      * @return
      */
-    public static String buildParams(Map<String, String> params) {
+    private static String buildParams(Map<String, String> params) {
         if (params == null || params.size() == 0) {
             return null;
         }
@@ -211,27 +211,6 @@ public class HttpClient {
             if (StringUtils.isNotBlank(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {
                 sb.append(sb.length() == 0 ? entry.getKey() + "=" : "&" + entry.getKey() + "=");
                 sb.append(entry.getValue());
-            }
-        }
-        return sb.toString().length() > 0 ? sb.toString() : null;
-    }
-    
-    /**
-     * 构造请求参数字符串
-     * @param params
-     * @return
-     */
-    public static String buildObjParams(Map<String, Object> params) {
-        if (params == null || params.size() == 0) {
-            return null;
-        }
-        StringBuilder sb = new StringBuilder();
-        Set<Entry<String, Object>> entrySet = params.entrySet();
-        for (Entry<String, Object> entry : entrySet) {
-            
-            if (StringUtils.isNotBlank(entry.getKey()) && entry.getValue() != null) {
-                sb.append(sb.length() == 0 ? entry.getKey() + "=" : "&" + entry.getKey() + "=");
-                sb.append(entry.getValue().toString());
             }
         }
         return sb.toString().length() > 0 ? sb.toString() : null;
@@ -438,6 +417,7 @@ public class HttpClient {
         }
         return result;
     }
+    
     /**
      * 字符串参数转化成NameValuePairs
      * a=1&b=2&c=3
