@@ -3,6 +3,8 @@
  */
 package cn.salesuite.common.utils;
 
+import com.alibaba.fastjson.JSON;
+
 
 /**
  * @author Tony Shen
@@ -108,4 +110,14 @@ public class StringUtils {
     public static boolean isNotBlank(Object obj) {
         return !StringUtils.isBlank(obj);
     }
+    
+	
+	/**
+	 * 将对象以json格式打印出来
+	 * @param obj
+	 * @return
+	 */
+	public static String printObject(Object obj) {
+		return JSON.toJSONString(obj);
+	}
 }

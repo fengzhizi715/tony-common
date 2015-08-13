@@ -19,9 +19,11 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HeaderElement;
 import org.apache.http.HeaderElementIterator;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -307,31 +309,6 @@ public class HttpClient {
     public String post(String url, String params, String encoding) {
         return post(url, params, encoding, null);
     }
-
-//    public String postJson(String url,Map<String, ?> params) {
-//    	
-//    	HttpPost method = new HttpPost(url);
-//        method.addHeader("Content-Type" , "application/json;charset=utf-8");
-//        method.addHeader("Accept" , "application/json");
-//		if (params != null) {
-//			String str;
-//			try {
-//				str = StringHelper.printObject(params);
-//				ByteArrayEntity mult = new ByteArrayEntity(str.getBytes("UTF-8"));
-//				method.setEntity(mult);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//        
-//    	return execute(method, DEFAULT_ENCODING);
-//    }
-    
-//    public void postJson(String url,Map<String, ?> params, HttpResponseHandler callback) {
-//    	logger.debug("http request url: " + url);
-//    	String body = postJson(url,params);
-//    	callback.onSuccess(body);
-//    }
     
     /**
      * post流
@@ -355,6 +332,36 @@ public class HttpClient {
     public String postStream(String url, String params, String encoding, String contentType) {
         return post(url, params, encoding, contentType);
     }
+    
+    /**
+     * post 请求，post body为xml格式
+     * @param url
+     * @param xmlContent
+     * @return
+     */
+	public String postXml(String url, String xmlContent) {
+
+		HttpPost post = new HttpPost(url);
+		post.addHeader("Content-Type", "application/xml; charset=UTF-8");  
+		HttpEntity entity;
+		String result = null;
+		try {
+			entity = new ByteArrayEntity(xmlContent.getBytes(DEFAULT_ENCODING));
+			post.setEntity(entity);
+			HttpResponse response = client.execute(post);
+			result = parseResponse(response, DEFAULT_ENCODING);
+
+			logger.debug("http response: " + result);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 
     /**
      * get方法,返回HttpResponse对象
