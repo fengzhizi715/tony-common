@@ -88,7 +88,6 @@ public class MemcachedCache implements Cache {
 	
 	public void put(Object key, Object value) {
 		if (value == null) {
-			// this.evict(key);
 			return;
 		}
 
