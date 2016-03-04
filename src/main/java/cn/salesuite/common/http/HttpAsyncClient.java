@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -18,18 +21,23 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
 import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.nio.conn.NoopIOSessionStrategy;
 import org.apache.http.nio.conn.SchemeIOSessionStrategy;
 import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
@@ -185,6 +193,118 @@ public class HttpAsyncClient {
 		// 执行请求
 		execute(client, request, encoding, callback);
 	}
+	
+	/**
+     * post表单
+     * @param url
+     * @param params
+     * @return
+     */
+    public void post(String url, String params, HttpResponseHandler callback) {
+        post(url, params, DEFAULT_ENCODING,callback);
+    }
+    
+    /**
+     * post表单
+     * 
+     * @param url 不带参数
+     * @param params 参数内容
+     * @param encoding 编码方式，默认utf-8
+     * @return
+     */
+    public void post(String url, String params, String encoding, HttpResponseHandler callback) {
+    	post(url,null,params, encoding,callback);
+    }
+
+    /**
+     * 
+     * @param url 不带参数
+     * @param headers
+     * @param params 参数内容
+     * @param encoding 编码方式，默认utf-8
+     * @param callback
+     */
+    public void post(String url, Header[] headers ,String params, String encoding, HttpResponseHandler callback) {
+    	post(url,null,params, encoding,null,callback);
+    }
+    
+    /**
+     * 
+     * @param url 不带参数
+     * @param headers
+     * @param params 参数内容
+     * @param encoding 编码方式，默认utf-8
+     * @param contentType
+     * @param callback
+     */
+    public void post(String url,Header[] headers ,String params, String encoding, String contentType,HttpResponseHandler callback) {
+		logger.debug("http request url: " + url);
+		logger.debug("http request params: " + params);
+		
+    	post(url,headers,createNameValuePairs(params), encoding,contentType,callback);
+    }
+    
+    public void post(String url, Header[] headers, List<NameValuePair> createNameValuePairs, String encoding,
+			String contentType, HttpResponseHandler callback) {
+		// 创建请求对象
+    	HttpPost request = new HttpPost(url);
+
+		// 设置header信息
+		if (headers!=null) {
+			request.setHeaders(headers);
+		}
+		
+		//设置header信息  
+        //指定报文头【Content-type】、【User-Agent】  
+		request.setHeader("Content-type", "application/json");
+		
+        if (createNameValuePairs != null) {
+            StringEntity reqEntity = null;
+            try {
+				reqEntity = new UrlEncodedFormEntity(createNameValuePairs, encoding);
+			} catch (UnsupportedEncodingException e) {
+				logger.error("new StringEntity error for encoding : " + encoding);
+            }
+            request.addHeader("Content-Type", contentType);
+            
+          //设置参数到请求对象中
+//			((HttpResponse) request).setEntity(reqEntity);
+            request.setEntity(reqEntity);
+        }
+		
+		// 执行请求
+		execute(client, request, encoding, callback);
+	}
+
+	/**
+     * 字符串参数转化成NameValuePairs
+     * a=1&b=2&c=3
+     * 		转化成
+     * 	List<NameValuePair>
+     * @param params
+     * @param encoding
+     * @return
+     */
+    private List<NameValuePair> createNameValuePairs(String params) {
+    	List<NameValuePair> paramNVPairs = new ArrayList<NameValuePair>();
+    	String[] paramPairs = params.split("&");
+    	String key = null;
+    	String value = null;
+    	for(String paramPair : paramPairs){
+    		String[] keyValue = paramPair.split("=");
+    		if(keyValue == null || keyValue.length == 0){
+    			continue;
+    		}
+    		key = keyValue[0];
+			if(keyValue.length == 1){
+				value = "";
+			} else {
+				value = keyValue[1];
+			}
+			paramNVPairs.add(new BasicNameValuePair(key, value));
+    	}
+    	return paramNVPairs;
+    }
     
 	public void execute(final CloseableHttpAsyncClient client, HttpRequestBase request,final String encoding,
 			final HttpResponseHandler callback) {
