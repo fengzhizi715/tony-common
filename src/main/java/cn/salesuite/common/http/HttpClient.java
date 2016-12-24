@@ -467,7 +467,6 @@ public class HttpClient {
      * 		转化成
      * 	List<NameValuePair>
      * @param params
-     * @param encoding
      * @return
      */
     private List<NameValuePair> createNameValuePairs(String params) {
@@ -496,12 +495,12 @@ public class HttpClient {
      * @author Tony Shen
      *
      */
-    public static interface HttpResponseHandler {
+    public interface HttpResponseHandler {
 
     	/**
     	 * http请求成功后，response转换成content
     	 * @param content
     	 */
-    	public void onSuccess(String content);
+        void onSuccess(String content);
     }
 }

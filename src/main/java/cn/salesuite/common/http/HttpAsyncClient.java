@@ -133,19 +133,17 @@ public class HttpAsyncClient {
   
         // 实现一个X509TrustManager接口，用于绕过验证，不用修改里面的方法  
         TrustManager trustManager = new X509TrustManager() {  
-            @Override  
+
             public void checkClientTrusted(  
                     java.security.cert.X509Certificate[] paramArrayOfX509Certificate,  
                     String paramString) throws CertificateException {  
             }  
-  
-            @Override  
+
             public void checkServerTrusted(  
                     java.security.cert.X509Certificate[] paramArrayOfX509Certificate,  
                     String paramString) throws CertificateException {  
             }  
-  
-            @Override  
+
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {  
                 return null;  
             }  
@@ -157,7 +155,6 @@ public class HttpAsyncClient {
     /**
      * get方法
      * @param url
-     * @param encoding
      * @param callback
      */
 	public void get(String url, HttpResponseHandler callback) {
@@ -282,7 +279,6 @@ public class HttpAsyncClient {
      * 		转化成
      * 	List<NameValuePair>
      * @param params
-     * @param encoding
      * @return
      */
     private List<NameValuePair> createNameValuePairs(String params) {
@@ -374,22 +370,22 @@ public class HttpAsyncClient {
      * @author Tony Shen
      *
      */
-    public static interface HttpResponseHandler {
+    public interface HttpResponseHandler {
 
     	/**
     	 * http请求成功后，response转换成content
     	 * @param content
     	 */
-    	public void onSuccess(String content);
+		void onSuccess(String content);
     	
     	/**
 		 * 处理异常时，执行该方法
 		 */
-    	public void onFailed(Exception e);
+		void onFailed(Exception e);
     	
     	/**
 		 * 处理取消时，执行该方法
 		 */
-    	public void onCancelled();
+		void onCancelled();
     }
 }
