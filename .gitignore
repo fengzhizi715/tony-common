@@ -11,5 +11,9 @@ target/
 .classpath
 .project
 .DS_Store
-.settings/
 tony-common.iml
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+
