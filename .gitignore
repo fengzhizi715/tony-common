@@ -9,6 +9,7 @@
 .project
 .DS_Store
 tony-common.iml
+.gradle
 gradle/
 gradlew
 gradlew.bat
