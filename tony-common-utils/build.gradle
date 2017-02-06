@@ -36,7 +36,7 @@ allprojects {
 publish{
     userOrg = 'fengzhizi715'
     groupId = 'tony-common'
-    artifactId = 'utils'
+    artifactId = 'tony-common-utils'
     publishVersion = '1.0.0'
     desc = 'this is a utils library for java'
     website = 'https://github.com/fengzhizi715/tony-common'
