@@ -1,0 +1,33 @@
+group 'tony-common'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+dependencies {
+    compile 'org.springframework:spring-context:4.2.3.RELEASE'
+    compile 'org.springframework:spring-test:4.2.3.RELEASE'
+    compile 'org.springframework:spring-test:4.2.3.RELEASE'
+    compile 'com.googlecode.xmemcached:xmemcached:2.0.0'
+    compile 'org.mongodb:mongo-java-driver:2.12.2'
+    compile 'com.google.guava:guava:18.0'
+    compile 'org.springframework.data:spring-data-redis:1.0.2.RELEASE'
+    compile 'redis.clients:jedis:2.1.0'
+    compile 'org.apache.httpcomponents:httpclient:4.4.1'
+    compile 'org.apache.httpcomponents:httpasyncclient:4.1'
+    compile 'org.aspectj:aspectjweaver:18.0'
+    compile 'io.reactivex:rxjava:1.0.15'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    compile project(':utils')
+}

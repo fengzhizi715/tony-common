@@ -1,9 +1,6 @@
 # Java class files
 *.class
 
-# generated files
-target/
-
 # Eclipse project files
 #.classpath
 #.project
@@ -12,7 +9,6 @@ target/
 .project
 .DS_Store
 tony-common.iml
-build.gradle
 gradle/
 gradlew
 gradlew.bat
