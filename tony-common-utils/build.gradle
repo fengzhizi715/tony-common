@@ -4,7 +4,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'com.novoda.bintray-release'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
 
 repositories {
     mavenCentral()
@@ -37,7 +37,7 @@ publish{
     userOrg = 'fengzhizi715'
     groupId = 'tony-common'
     artifactId = 'tony-common-utils'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = 'this is a utils library for java'
     website = 'https://github.com/fengzhizi715/tony-common'
 }
