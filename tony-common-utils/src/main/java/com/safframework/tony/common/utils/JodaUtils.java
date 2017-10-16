@@ -227,7 +227,7 @@ public class JodaUtils {
 	
 	/**
 	 * 获取日期所在月份的最后一天
-	 * @param days
+	 * @param date
 	 * @return
 	 */
 	public static Date getMonthLastDay(Date date){
