@@ -3,6 +3,7 @@ package com.safframework.tony.common.utils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Tony Shen on 15/11/12.
@@ -33,6 +34,10 @@ public class Preconditions {
             }
         } else if (t instanceof Map) {
             if (((Map) t).size()==0) {
+                return true;
+            }
+        } else if (t instanceof Set) {
+            if (((Set) t).size()==0) {
                 return true;
             }
         } else if (t instanceof Object []) {
