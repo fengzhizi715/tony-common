@@ -123,4 +123,18 @@ public class IOUtils {
         }
     }
 
+    /**
+     * 安全关闭io流
+     * @param closeables
+     */
+    public static void closeQuietly(Closeable... closeables) {
+
+        if (Preconditions.isNotBlank(closeables)) {
+
+            for(Closeable closeable:closeables) {
+                closeQuietly(closeable); // 系统先匹配确定参数的方法，没有再去匹配调用不定项参数的方法
+            }
+        }
+    }
+
 }
