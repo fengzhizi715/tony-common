@@ -11,8 +11,8 @@ repositories {
 }
 
 dependencies {
-    compile 'joda-time:joda-time:2.9.7'
-    compile 'com.alibaba:fastjson:1.2.29'
+    compile 'joda-time:joda-time:2.9.9'
+    compile 'com.alibaba:fastjson:1.2.44'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
@@ -37,7 +37,7 @@ publish{
     userOrg = 'fengzhizi715'
     groupId = 'tony-common'
     artifactId = 'tony-common-utils'
-    publishVersion = '1.2.3'
+    publishVersion = '1.2.4'
     desc = 'this is a utils library for java'
     website = 'https://github.com/fengzhizi715/tony-common'
 }
