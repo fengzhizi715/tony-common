@@ -4,7 +4,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'com.novoda.bintray-release'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -13,7 +13,7 @@ repositories {
 dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'joda-time:joda-time:2.9.9'
-    implementation 'com.alibaba:fastjson:1.2.49'
+    compileOnly 'com.alibaba:fastjson:1.2.54'
 }
 
 repositories {
@@ -37,7 +37,7 @@ publish{
     userOrg = 'fengzhizi715'
     groupId = 'tony-common'
     artifactId = 'tony-common-utils'
-    publishVersion = '1.2.6'
+    publishVersion = '1.2.7'
     desc = 'this is a utils library for java'
     website = 'https://github.com/fengzhizi715/tony-common'
 }
