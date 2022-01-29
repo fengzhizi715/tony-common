@@ -24,19 +24,5 @@ buildscript {
 }
 
 dependencies {
-    implementation 'org.springframework:spring-context:4.2.3.RELEASE'
-    implementation 'org.springframework:spring-test:4.2.3.RELEASE'
-    implementation 'org.springframework:spring-test:4.2.3.RELEASE'
-    implementation 'com.googlecode.xmemcached:xmemcached:2.0.0'
-    implementation 'org.mongodb:mongo-java-driver:2.12.2'
-    implementation 'com.google.guava:guava:18.0'
-    implementation 'org.springframework.data:spring-data-redis:1.0.2.RELEASE'
-    implementation 'redis.clients:jedis:2.1.0'
-    implementation 'org.apache.httpcomponents:httpclient:4.4.1'
-    implementation 'org.apache.httpcomponents:httpasyncclient:4.1'
-    implementation 'org.aspectj:aspectjweaver:1.8.0'
-    implementation 'io.reactivex:rxjava:1.0.15'
-    implementation group: 'junit', name: 'junit', version: '4.11'
-
-    implementation project(':tony-common-utils')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
